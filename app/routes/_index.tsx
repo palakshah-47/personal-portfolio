@@ -1,4 +1,4 @@
-import me from '../../public/me.jpg';
+import me from '../assets/me.jpg';
 
 const IndexPage = () => {
 	return (
@@ -12,21 +12,19 @@ const IndexPage = () => {
 					Home
 				</h1>
 			</div>
-			<div className="items-center spacey-2 xl:grid xl:grid-col-3 xl:gap-x-8 xl:space-y-0">
-				<div className="flex flex-col items-start pt-8">
+			<div className="items-center space-y-2 xl:grid xl:grid-cols-2 xl:gap-x-8 xl:space-y-0">
+				<div className="flex flex-col items-center justify-center">
 					<img
 						src={me}
 						alt="Profile"
-						className="w-32 h-32 rounded-full object-cover object-top"
+						className="w-48 h-48 rounded-full object-cover object-top"
 					/>
-					<h3 className="pt-4 pb-2 text-2xl font-bold leading-8 tracking-tight">
-						Palak Shah
-					</h3>
-					<p className="text-gray-500 dark:text-gray-400 text-left w-[30rem] sm:w-[40rem]">
+					<h3 className="p-4 text-2xl font-bold leading-8 tracking-tight">Palak Shah</h3>
+					<p className="pl-4 text-gray-500 dark:text-gray-400 text-left w-[30rem] sm:w-[20rem]">
 						I am a software engineer with a passion for building web applications and
 						exploring new technologies.
 					</p>
-					<div className="flex pt-6 space-x-5">
+					<div className="flex pt-6 space-x-5 pl-4">
 						<a href="https://github.com/palakshah-47" target="_blank" rel="noreferrer">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -68,6 +66,29 @@ const IndexPage = () => {
 							</svg>
 						</a>
 					</div>
+				</div>
+
+				<div className="prose max-w-none prose-lg pt-8 pb-8 dark:prose-invert">
+					<p>
+						Hi, I’m Palak Shah, a Senior Frontend Engineer with over 10 years of
+						experience building scalable, data-intensive web applications. My expertise
+						is in React, TypeScript, and Next.js, where I focus on performance, reusable
+						design systems, and Micro Frontend architectures.
+					</p>
+					<p>
+						I’ve led teams at Alter Domus, JP Morgan, and Guy Carpenter, delivering
+						complex dashboards with AG Grid, real-time data integrations, and modernized
+						legacy systems. I also bring experience in AI-enhanced UIs, having
+						integrated OpenAI APIs and vector search into applications to improve user
+						experiences.
+					</p>
+					<p>
+						Recently, I built a full-stack e-commerce platform with secure payments,
+						intelligent product search, and a modern UI deployed on Vercel. I enjoy
+						combining technical leadership with hands-on development — mentoring
+						engineers, driving architecture decisions, and ensuring applications are
+						both high-performing and user-friendly.
+					</p>
 				</div>
 			</div>
 		</div>

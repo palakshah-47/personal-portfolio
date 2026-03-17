@@ -1,30 +1,20 @@
-import {
-	Links,
-	Meta,
-	Outlet,
-	Scripts,
-	ScrollRestoration,
-	useLoaderData,
-} from '@remix-run/react';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from '@remix-run/react';
 import type { LinksFunction, LoaderFunctionArgs } from '@remix-run/node';
 
 import stylesheet from '~/tailwind.css?url';
 import { themeSessionResolver } from './utils/session.server';
-import {
-	PreventFlashOnWrongTheme,
-	ThemeProvider,
-	useTheme,
-} from 'remix-themes';
+import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from 'remix-themes';
 import Navbar from './components/Navbar';
 
-export const links: LinksFunction = () => [
-	{ rel: 'stylesheet', href: stylesheet },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: stylesheet }];
+
+import type { Theme } from 'remix-themes';
 
 export async function loader({ request }: LoaderFunctionArgs) {
 	const { getTheme } = await themeSessionResolver(request);
+	const theme = (getTheme() ?? 'light') as Theme;
 	return {
-		theme: getTheme(),
+		theme,
 	};
 }
 
@@ -60,3 +50,4 @@ export default function App() {
 		</ThemeProvider>
 	);
 }
+
