@@ -14,7 +14,7 @@
     "@graphcms/rich-text-react-renderer": "^0.6.2",
     "@headlessui/react": "^2.2.4",
     "@remix-run/node": "^2.16.8",
-    "@remix-run/react": "^2.16.8",
+    "@remix-run/react": "^2.17.5",
     "@remix-run/serve": "^2.16.8",
     "graphql": "^16.11.0",
     "graphql-request": "^7.2.0",

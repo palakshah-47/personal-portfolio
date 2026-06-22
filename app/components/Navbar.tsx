@@ -1,4 +1,4 @@
-import { Disclosure, DisclosurePanel } from '@headlessui/react';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
 import { Link, NavLink } from '@remix-run/react';
 
 import { Theme, useTheme } from 'remix-themes';
@@ -22,7 +22,7 @@ const Navbar = () => {
 								<div className="hidden sm:ml-6 sm:flex sm:space-x-8 mt-8">
 									<NavLink
 										to="/"
-										className={({ isActive }) =>
+										className={({ isActive }: { isActive: boolean }) =>
 											isActive
 												? 'border-teal-500 dark:bg-gray-900 dark:text-white h-full inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
 												: 'border-transparent text-gray-500 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
@@ -32,7 +32,7 @@ const Navbar = () => {
 									</NavLink>
 									<NavLink
 										to="/blog"
-										className={({ isActive }) =>
+										className={({ isActive }: { isActive: boolean }) =>
 											isActive
 												? 'border-teal-500 dark:bg-gray-900 dark:text-white h-full inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
 												: 'border-transparent text-gray-500 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
@@ -42,7 +42,7 @@ const Navbar = () => {
 									</NavLink>
 									<NavLink
 										to="/projects"
-										className={({ isActive }) =>
+										className={({ isActive }: { isActive: boolean }) =>
 											isActive
 												? 'border-teal-500 dark:bg-gray-900 dark:text-white h-full inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
 												: 'border-transparent text-gray-500 dark:text-gray-300 dark:hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
@@ -133,7 +133,7 @@ const Navbar = () => {
 										</svg>
 									)}
 								</button>
-								<Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:img-teal-500 dark:hover:bg-gray-800">
+								<DisclosureButton className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:img-teal-500 dark:hover:bg-gray-800">
 									{open ? (
 										<svg
 											xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +165,7 @@ const Navbar = () => {
 											/>
 										</svg>
 									)}
-								</Disclosure.Button>
+								</DisclosureButton>
 							</div>
 						</div>
 					</div>
@@ -173,7 +173,7 @@ const Navbar = () => {
 						<div className="pt-2 pb-3 space-y-1">
 							<NavLink
 								to="/"
-								className={({ isActive }) =>
+								className={({ isActive }: { isActive: boolean }) =>
 									isActive
 										? 'bg-teal-50 border-teal-500 text-teal-500 block pl-3 pr-4 py-2 border-l-4 text-base font-medium dark:bg-gray-800'
 										: 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-300 block pl-3 pr-4 py-2 border-l-4 text-base font-medium dark:hover:bg-gray-700 dark:text-white'
@@ -183,7 +183,7 @@ const Navbar = () => {
 							</NavLink>
 							<NavLink
 								to="/blog"
-								className={({ isActive }) =>
+								className={({ isActive }: { isActive: boolean }) =>
 									isActive
 										? 'bg-teal-50 border-teal-500 text-teal-500 block pl-3 pr-4 py-2 border-l-4 text-base font-medium dark:bg-gray-800'
 										: 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-300 block pl-3 pr-4 py-2 border-l-4 text-base font-medium dark:hover:bg-gray-700 dark:text-white'
@@ -193,7 +193,7 @@ const Navbar = () => {
 							</NavLink>
 							<NavLink
 								to="/projects"
-								className={({ isActive }) =>
+								className={({ isActive }: { isActive: boolean }) =>
 									isActive
 										? 'bg-teal-50 border-teal-500 text-teal-500 block pl-3 pr-4 py-2 border-l-4 text-base font-medium dark:bg-gray-800'
 										: 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-300 block pl-3 pr-4 py-2 border-l-4 text-base font-medium dark:hover:bg-gray-700 dark:text-white'
