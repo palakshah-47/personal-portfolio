@@ -1,10 +1,31 @@
 type CoverImageProps = {
 	gradient: string;
 	iconPath: string;
+	image?: string;
+	title?: string;
 	className?: string;
 };
 
-export function CoverImage({ gradient, iconPath, className = 'h-48' }: CoverImageProps) {
+export function CoverImage({
+	gradient,
+	iconPath,
+	image,
+	title,
+	className = 'h-48',
+}: CoverImageProps) {
+	if (image) {
+		return (
+			<div className={`relative overflow-hidden ${className}`}>
+				<img
+					src={image}
+					alt={title ? `${title} screenshot` : 'Project screenshot'}
+					loading="lazy"
+					className="h-full w-full object-cover object-top transition-transform duration-300 group-hover:scale-105"
+				/>
+			</div>
+		);
+	}
+
 	return (
 		<div
 			className={`relative overflow-hidden bg-gradient-to-br ${gradient} ${className}`}

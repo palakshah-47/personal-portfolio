@@ -37,7 +37,13 @@ function ExternalLinkIcon() {
 function ProjectCard({ project, coverHeight }: { project: Project; coverHeight: string }) {
 	return (
 		<div className="group flex flex-col rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-200">
-			<CoverImage gradient={project.gradient} iconPath={project.iconPath} className={coverHeight} />
+			<CoverImage
+				gradient={project.gradient}
+				iconPath={project.iconPath}
+				image={project.image}
+				title={project.title}
+				className={coverHeight}
+			/>
 
 			<div className="flex flex-col flex-1 p-6 gap-4">
 				<div>
