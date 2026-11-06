@@ -4,8 +4,8 @@ import { Theme, useTheme } from 'remix-themes';
 
 const navLinks = [
 	{ to: '/', label: 'Home' },
-	{ to: '/blog', label: 'Blog' },
 	{ to: '/projects', label: 'Projects' },
+	{ to: '/blog', label: 'Blog' },
 ];
 
 const desktopNavClass = ({ isActive }: { isActive: boolean }) =>
@@ -68,7 +68,7 @@ const Navbar = () => {
 	return (
 		<Disclosure
 			as="nav"
-			className="sticky top-0 z-10 border-b border-gray-100 dark:border-gray-800/50 bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm"
+			className="sticky top-0 z-10 border-b border-gray-100 dark:border-gray-800/50 bg-surface/90 dark:bg-gray-950/90 backdrop-blur-sm"
 		>
 			{({ open }) => (
 				<>
@@ -76,8 +76,8 @@ const Navbar = () => {
 						<div className="flex items-center justify-between h-16">
 							{/* Brand */}
 							<Link to="/" className="group shrink-0">
-								<span className="text-xl font-display font-bold text-gray-900 dark:text-white transition-colors duration-200 group-hover:text-teal-600 dark:group-hover:text-teal-400">
-									Marshal<span className="text-teal-500">Blog</span>
+								<span className="text-sm font-semibold uppercase tracking-[0.2em] text-gray-900 dark:text-white transition-colors duration-200 group-hover:text-teal-600 dark:group-hover:text-teal-400">
+									Palak Shah<span className="text-teal-500">.</span>
 								</span>
 							</Link>
 
@@ -88,10 +88,16 @@ const Navbar = () => {
 										{label}
 									</NavLink>
 								))}
+								<Link
+									to="/#contact"
+									className="ml-2 rounded-full border border-gray-300 px-4 py-1.5 font-mono text-xs uppercase tracking-widest text-gray-700 transition-colors duration-200 hover:border-teal-500 hover:text-teal-600 dark:border-gray-700 dark:text-gray-300 dark:hover:border-teal-400 dark:hover:text-teal-400"
+								>
+									Contact
+								</Link>
 								<button
 									onClick={toggleTheme}
 									aria-label="Toggle theme"
-									className="ml-2 p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+									className="ml-1 p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
 								>
 									{theme === Theme.DARK ? <SunIcon /> : <MoonIcon />}
 								</button>
@@ -151,6 +157,13 @@ const Navbar = () => {
 									{label}
 								</NavLink>
 							))}
+							<DisclosureButton
+								as={Link}
+								to="/#contact"
+								className="block border-l-4 border-transparent py-2 pl-3 pr-4 text-base font-medium text-gray-500 transition-colors duration-150 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:border-gray-600 dark:hover:bg-gray-800/50 dark:hover:text-white"
+							>
+								Contact
+							</DisclosureButton>
 						</div>
 					</DisclosurePanel>
 				</>

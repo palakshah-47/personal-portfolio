@@ -1,5 +1,28 @@
+export type Metric = {
+	label: string;
+	before: string;
+	after: string;
+	/** Shown under the metric, e.g. to flag an estimate. */
+	note?: string;
+};
+
+export type CaseStudy = {
+	/** One-line framing of the problem space. */
+	role: string;
+	context: string[];
+	approach: string[];
+	/** Who sees what in the access model. */
+	accessScopes: { title: string; body: string }[];
+	decisions: { title: string; body: string }[];
+	stateManagement: { challenge: string; resolution: string };
+	postLaunch: { title: string; problem: string; fix: string }[];
+};
+
 export type Project = {
+	slug: string;
 	title: string;
+	/** Short label shown on cards, e.g. "Case study". */
+	category: string;
 	description: string;
 	tags: string[];
 	gradient: string;
@@ -8,11 +31,98 @@ export type Project = {
 	github?: string;
 	live?: string;
 	featured: boolean;
+	metrics?: Metric[];
+	caseStudy?: CaseStudy;
 };
 
 export const projects: Project[] = [
 	{
+		slug: 'iam-modernization',
+		title: 'IAM Platform Modernization',
+		category: 'Case study',
+		description:
+			'Rebuilt a legacy AngularJS identity and access management app in React and TypeScript, with OKTA OAuth 2.0 and role-based access control. Onboarding went from about two days to the same day, and access-related support tickets dropped from roughly 120 to 50 a month.',
+		tags: ['React', 'TypeScript', 'Redux Toolkit', 'Material UI', 'OKTA OAuth 2.0', 'RBAC'],
+		gradient: 'from-slate-700 to-teal-700',
+		iconPath:
+			'M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z',
+		featured: true,
+		metrics: [
+			{ label: 'Onboarding a user or client', before: '~2 days', after: 'Same day' },
+			{ label: 'Access tickets per month', before: '~120', after: '~50' },
+			{ label: 'Page load', before: '4.8 s', after: '2.1 s', note: 'Estimated' },
+			{ label: 'Initial bundle', before: '2.8 MB', after: '~350 KB' },
+			{ label: 'Time to Interactive', before: '7.2 s', after: '2.5 s' },
+			{ label: 'Lighthouse performance', before: '32', after: '84' },
+		],
+		caseStudy: {
+			role: 'Frontend lead: architecture, React implementation, OKTA integration and performance work.',
+			context: [
+				'A legacy AngularJS app sat at the center of a security-sensitive system.',
+				'Onboarding a new client, or adding users to a client, was manual, ticket-driven and slow.',
+				'The codebase was hard to maintain, so new features shipped slowly.',
+				'The brief began as a single screen of rough mockups with no defined use cases.',
+				'Enterprise role-based access control had to be right from day one.',
+			],
+			approach: [
+				'Defined the core user stories and use cases together with the UX team.',
+				'Architected the frontend with React, TypeScript, Redux Toolkit and Material UI.',
+				'Implemented OKTA OAuth 2.0 so each user gets exactly the right access, working closely with the identity management team.',
+			],
+			accessScopes: [
+				{
+					title: 'Internal user',
+					body: 'Sees only the clients assigned to them, and the groups within those clients. A user assigned to Client A sees Client A and its groups.',
+				},
+				{
+					title: 'Administrator',
+					body: 'Sees every imported client. An administrator sees Client A, Client B and any other client that has been imported.',
+				},
+			],
+			decisions: [
+				{
+					title: 'Reusable component library',
+					body: 'Standardized buttons, forms and inputs on Material UI, documented in Storybook. It keeps the UI consistent and removes duplicate implementations.',
+				},
+				{
+					title: 'OAuth 2.0 + RBAC',
+					body: 'Aligned with security early. It gives secure enterprise access and clearer authorization flows.',
+				},
+				{
+					title: 'OpenAPI + Prism mocks',
+					body: 'Decoupled UI work from API availability, so frontend and backend could be delivered in parallel.',
+				},
+				{
+					title: 'Route-based lazy loading',
+					body: 'Reduced the initial bundle scope on slow networks, to improve perceived startup performance.',
+				},
+			],
+			stateManagement: {
+				challenge:
+					'Context API removed prop drilling for shared client, group and permission state. But a broad provider value made unrelated consumers re-render on every change, and related updates got harder to trace as IAM workflows grew.',
+				resolution:
+					'Scoped a proof of concept to client selection and organized shared state into focused Redux Toolkit slices. Specific selectors limit unnecessary renders, temporary UI state stays local, and state transitions are explicit and easy to inspect in Redux DevTools.',
+			},
+			postLaunch: [
+				{
+					title: 'Large bundle size',
+					problem:
+						'As third-party libraries piled up, the app grew into a 2.8 MB monolithic bundle. Users had to download and parse all the administrative code just to render the login screen, which locked the main thread at peak usage: a 7.2 s Time to Interactive and a Lighthouse score of 32.',
+					fix: 'Led an optimization effort with route-based code splitting via React.lazy(), strict Webpack tree shaking and Brotli compression in CI/CD. The initial payload dropped by 87% to about 350 KB, Time to Interactive fell to 2.5 s and Lighthouse rose to 84.',
+				},
+				{
+					title: 'Database hotspots at peak hours',
+					problem:
+						'Identity traffic is cyclical. When many users log in at once, the NoSQL database sees a sharp spike in reads, and when it is also processing background Kafka work, CPU climbs and logins slow down.',
+					fix: 'Added Redis caching. Each user’s compiled access document is held in memory, so the bulk of login-time reads never reach the database.',
+				},
+			],
+		},
+	},
+	{
+		slug: 'fingerhut-shopping-cart',
 		title: 'Fingerhut Shopping Cart',
+		category: 'Full-stack',
 		description:
 			'Full-stack e-commerce platform built with Next.js 15 and React 19. Features credential and OAuth sign-in via NextAuth with a Prisma/Postgres data layer, Stripe checkout and webhooks, an admin dashboard with MUI Data Grid for inventory management, and server-persisted carts, orders, and user profiles.',
 		tags: ['Next.js 15', 'React 19', 'TypeScript', 'Prisma', 'Stripe', 'NextAuth'],
@@ -25,7 +135,9 @@ export const projects: Project[] = [
 		featured: true,
 	},
 	{
+		slug: 'ai-weather-assistant',
 		title: 'AI Weather Assistant',
+		category: 'GenAI',
 		description:
 			'AI-powered weather app that pairs a React + Vite frontend with the OpenAI API. It figures out which location you are asking about, explains the forecast in plain language, and even suggests what to wear — with user authentication and API tokens stored securely in a ServiceWorker.',
 		tags: ['React', 'JavaScript', 'OpenAI', 'Vite', 'ServiceWorker'],
@@ -38,7 +150,9 @@ export const projects: Project[] = [
 		featured: true,
 	},
 	{
+		slug: 'comfy-store',
 		title: 'Comfy Store',
+		category: 'Storefront',
 		description:
 			'Modern furniture storefront built with React, TypeScript, and Vite. Uses Redux Toolkit for cart and global state, React Router data loaders, accessible Radix UI primitives, and a Tailwind design system — with product filtering, sorting, pagination, and an embla carousel.',
 		tags: ['React', 'TypeScript', 'Redux Toolkit', 'React Router', 'Radix UI', 'Tailwind CSS'],
@@ -51,7 +165,9 @@ export const projects: Project[] = [
 		featured: true,
 	},
 	{
+		slug: 'blackjack',
 		title: 'Blackjack',
+		category: 'Game',
 		description:
 			'Browser Blackjack game — you versus the house — including the tricky 1-or-11 Ace scoring logic. State is managed with Redux Toolkit, cards are dealt from the Deck of Cards API, and the app is deployed to GitHub Pages.',
 		tags: ['React', 'TypeScript', 'Redux Toolkit', 'REST API', 'GitHub Pages'],
@@ -64,3 +180,7 @@ export const projects: Project[] = [
 		featured: true,
 	},
 ];
+
+export function getProjectBySlug(slug: string) {
+	return projects.find((p) => p.slug === slug);
+}

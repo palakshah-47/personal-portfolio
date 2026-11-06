@@ -1,4 +1,45 @@
+import type { MetaFunction } from '@remix-run/node';
+import { Link } from '@remix-run/react';
 import me from '../assets/me.jpg';
+import { CtaBlock } from '~/components/CtaBlock';
+import { Eyebrow } from '~/components/Eyebrow';
+import { NumberedCard } from '~/components/NumberedCard';
+import { SectionHeading } from '~/components/SectionHeading';
+import { projects } from '~/data/projects';
+
+export const meta: MetaFunction = () => [
+	{ title: 'Palak Shah · Frontend Technical Lead' },
+	{
+		name: 'description',
+		content:
+			'Frontend technical lead building high-performance dashboards, AI-integrated UIs and Micro Frontend architectures at enterprise scale.',
+	},
+];
+
+const expertise = [
+	{
+		title: 'Micro Frontends',
+		tag: 'Architecture',
+		body: 'Led Micro Frontend development across multiple apps, with shared component libraries and React Query for API management, so teams can ship independently.',
+	},
+	{
+		title: 'Data-heavy dashboards',
+		tag: 'Performance',
+		body: 'Real-time AG Grid dashboards fed by WebSockets, plus lazy loading, memoization and Webpack optimization that cut load time by about 40%.',
+	},
+	{
+		title: 'AI-integrated UI',
+		tag: 'GenAI',
+		body: 'Interfaces built on the OpenAI API that turn natural-language questions into clear, useful answers, like the AI Weather Assistant above.',
+	},
+	{
+		title: 'Design systems & access',
+		tag: 'Platform',
+		body: 'Reusable React and TypeScript component systems with ARIA accessibility and testing best practices, and secure RBAC and OKTA OAuth flows.',
+	},
+];
+
+const featuredProjects = projects.filter((p) => p.featured);
 
 const skills = [
 	'React',
@@ -17,17 +58,14 @@ const IndexPage = () => {
 			<div className="grid lg:grid-cols-[1fr_auto] gap-12 lg:gap-20 items-center">
 				{/* Text */}
 				<div>
-					<p
-						className="text-xs font-semibold tracking-widest uppercase text-teal-600 dark:text-teal-400 mb-5 animate-fade-in-up"
-						style={{ animationDelay: '0ms' }}
-					>
-						Frontend Technical Lead &middot; Rutherford, NJ
-					</p>
+					<Eyebrow className="mb-5 animate-fade-in-up">
+						Palak Shah &middot; Frontend Technical Lead &middot; Rutherford, NJ
+					</Eyebrow>
 					<h1
-						className="font-display text-[clamp(2.75rem,6vw,4rem)] leading-[1.15] font-bold tracking-[-0.02em] text-gray-900 dark:text-white mb-6 animate-fade-in-up"
+						className="font-display text-[clamp(2.5rem,5.5vw,3.75rem)] leading-[1.1] font-bold tracking-[-0.02em] text-gray-900 dark:text-white mb-6 animate-fade-in-up"
 						style={{ animationDelay: '80ms' }}
 					>
-						Palak Shah
+						Enterprise UIs that stay fast, accessible and easy to evolve.
 					</h1>
 					<p
 						className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-xl mb-8 animate-fade-in-up"
@@ -39,8 +77,11 @@ const IndexPage = () => {
 					</p>
 
 					{/* Skill chips */}
+					<p className="font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-3 animate-fade-in-up">
+						Core stack
+					</p>
 					<div
-						className="flex flex-wrap gap-2 mb-10 animate-fade-in-up"
+						className="flex flex-wrap gap-2 mb-8 animate-fade-in-up"
 						style={{ animationDelay: '240ms' }}
 					>
 						{skills.map((skill) => (
@@ -51,6 +92,24 @@ const IndexPage = () => {
 								{skill}
 							</span>
 						))}
+					</div>
+
+					<div
+						className="flex flex-wrap items-center gap-4 mb-8 animate-fade-in-up"
+						style={{ animationDelay: '280ms' }}
+					>
+						<Link
+							to="/projects"
+							className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-200 hover:bg-teal-600 dark:bg-white dark:text-gray-950 dark:hover:bg-teal-400"
+						>
+							View projects <span aria-hidden="true">&rarr;</span>
+						</Link>
+						<Link
+							to="/#contact"
+							className="text-sm font-medium text-gray-700 underline-offset-4 hover:underline dark:text-gray-300"
+						>
+							Get in touch
+						</Link>
 					</div>
 
 					{/* Social / contact links */}
@@ -134,14 +193,65 @@ const IndexPage = () => {
 						<img
 							src={me}
 							alt="Palak Shah"
-							className="relative w-52 h-52 lg:w-64 lg:h-64 rounded-full object-cover object-top ring-2 ring-teal-500/20 ring-offset-4 ring-offset-white dark:ring-offset-gray-950"
+							className="relative w-52 h-52 lg:w-64 lg:h-64 rounded-full object-cover object-top ring-2 ring-teal-500/20 ring-offset-4 ring-offset-surface dark:ring-offset-gray-950"
 						/>
 					</div>
 				</div>
 			</div>
 
+			{/* Key projects */}
+			<section className="mt-24 pt-16 border-t border-gray-200 dark:border-gray-800">
+				<SectionHeading
+					eyebrow="Key Projects"
+					title="Selected work, built end to end."
+					subtitle="Enterprise platforms and personal builds, with the engineering decisions behind them."
+				/>
+				<div className="mt-10 grid gap-6 md:grid-cols-2">
+					{featuredProjects.map((project, i) => (
+						<NumberedCard
+							key={project.slug}
+							index={i + 1}
+							tag={project.category}
+							title={project.title}
+							to={project.caseStudy ? `/projects/${project.slug}` : undefined}
+							href={project.caseStudy ? undefined : (project.live ?? project.github)}
+							cta={project.caseStudy ? 'Read case study' : project.live ? 'Live demo' : 'View code'}
+							className={project.caseStudy ? 'md:col-span-2' : ''}
+						>
+							<p className="line-clamp-3">{project.description}</p>
+						</NumberedCard>
+					))}
+				</div>
+				<div className="mt-8">
+					<Link
+						to="/projects"
+						className="text-sm font-medium text-teal-600 dark:text-teal-400 hover:underline underline-offset-4"
+					>
+						See all projects <span aria-hidden="true">&rarr;</span>
+					</Link>
+				</div>
+			</section>
+
+			{/* Expertise */}
+			<section className="mt-24 pt-16 border-t border-gray-200 dark:border-gray-800">
+				<SectionHeading
+					eyebrow="Expertise"
+					title="Where I add the most leverage."
+					subtitle="Four areas I keep coming back to."
+				/>
+				<div className="mt-10 grid gap-6 sm:grid-cols-2">
+					{expertise.map((item, i) => (
+						<NumberedCard key={item.title} index={i + 1} tag={item.tag} title={item.title}>
+							{item.body}
+						</NumberedCard>
+					))}
+				</div>
+			</section>
+
 			{/* Experience summary */}
-			<div className="mt-20 pt-16 border-t border-gray-100 dark:border-gray-800">
+			<section className="mt-24 pt-16 border-t border-gray-200 dark:border-gray-800">
+				<SectionHeading eyebrow="Experience" title="Ten years of shipping enterprise UI." />
+				<div className="mt-8">
 				<div className="prose prose-lg dark:prose-invert max-w-none prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:leading-relaxed prose-strong:text-gray-800 dark:prose-strong:text-gray-200">
 					<p>
 						Currently at <strong>Alter Domus</strong> as a Senior UI Engineer on the{' '}
@@ -166,6 +276,11 @@ const IndexPage = () => {
 						<strong>B.E. Electrical Engineering</strong>, Gujarat University, India
 					</p>
 				</div>
+				</div>
+			</section>
+
+			<div className="mt-24">
+				<CtaBlock id="contact" />
 			</div>
 		</div>
 	);
