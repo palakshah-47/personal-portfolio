@@ -5,13 +5,14 @@ import stylesheet from '~/tailwind.css?url';
 import { themeSessionResolver } from './utils/session.server';
 import { PreventFlashOnWrongTheme, ThemeProvider, useTheme } from 'remix-themes';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 export const links: LinksFunction = () => [
 	{ rel: 'preconnect', href: 'https://fonts.googleapis.com' },
 	{ rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
 	{
 		rel: 'stylesheet',
-		href: 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap',
+		href: 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:wght@700;800&family=JetBrains+Mono:wght@400;500&display=swap',
 	},
 	{ rel: 'stylesheet', href: stylesheet },
 ];
@@ -38,11 +39,12 @@ function ThemedApp({ ssrTheme }: { ssrTheme: boolean }) {
 				<PreventFlashOnWrongTheme ssrTheme={ssrTheme} />
 				<Links />
 			</head>
-			<body className="bg-white text-gray-900 dark:bg-gray-950 dark:text-white min-h-screen antialiased selection:bg-teal-100 dark:selection:bg-teal-900/40">
+			<body className="bg-surface text-gray-900 dark:bg-gray-950 dark:text-white min-h-screen antialiased selection:bg-teal-100 dark:selection:bg-teal-900/40">
 				<Navbar />
 				<main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 					<Outlet />
 				</main>
+				<Footer />
 				<ScrollRestoration />
 				<Scripts />
 			</body>

@@ -8,6 +8,10 @@ export default {
 			fontFamily: {
 				sans: ['DM Sans', 'Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
 				display: ['Playfair Display', 'Georgia', 'ui-serif', 'serif'],
+				mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+			},
+			colors: {
+				surface: '#faf8f4',
 			},
 			keyframes: {
 				fadeInUp: {

@@ -1,4 +1,8 @@
+import { Link } from '@remix-run/react';
+import type { MetaFunction } from '@remix-run/node';
 import { CoverImage } from '~/components/CoverImage';
+import { Eyebrow } from '~/components/Eyebrow';
+import { SectionHeading } from '~/components/SectionHeading';
 import { projects, type Project } from '~/data/projects';
 
 function GitHubIcon() {
@@ -34,9 +38,28 @@ function ExternalLinkIcon() {
 	);
 }
 
-function ProjectCard({ project, coverHeight }: { project: Project; coverHeight: string }) {
+export const meta: MetaFunction = () => [
+	{ title: 'Projects · Palak Shah' },
+	{
+		name: 'description',
+		content:
+			'Enterprise platforms and personal builds by Palak Shah, with the engineering decisions behind them.',
+	},
+];
+
+function ProjectCard({
+	project,
+	coverHeight,
+	className = '',
+}: {
+	project: Project;
+	coverHeight: string;
+	className?: string;
+}) {
 	return (
-		<div className="group flex flex-col rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:shadow-lg dark:hover:shadow-gray-900/50 transition-all duration-200">
+		<div
+			className={`group relative flex flex-col rounded-2xl overflow-hidden border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-teal-500/60 hover:shadow-lg dark:hover:shadow-gray-950/60 transition-all duration-200 ${className}`}
+		>
 			<CoverImage
 				gradient={project.gradient}
 				iconPath={project.iconPath}
@@ -47,7 +70,10 @@ function ProjectCard({ project, coverHeight }: { project: Project; coverHeight: 
 
 			<div className="flex flex-col flex-1 p-6 gap-4">
 				<div>
-					<h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-teal-500 dark:group-hover:text-teal-400 transition-colors">
+					<p className="mb-2 font-mono text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400">
+						{project.category}
+					</p>
+					<h3 className="font-display text-xl font-bold text-gray-900 dark:text-gray-100 group-hover:text-teal-500 dark:group-hover:text-teal-400 transition-colors">
 						{project.title}
 					</h3>
 					<p className="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-3">
@@ -67,12 +93,20 @@ function ProjectCard({ project, coverHeight }: { project: Project; coverHeight: 
 				</div>
 
 				<div className="flex items-center gap-5 pt-4 border-t border-gray-100 dark:border-gray-700/60">
+					{project.caseStudy && (
+						<Link
+							to={`/projects/${project.slug}`}
+							className="flex items-center gap-1.5 text-sm font-medium text-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors after:content-[''] after:absolute after:inset-0"
+						>
+							Read case study <span aria-hidden="true">&rarr;</span>
+						</Link>
+					)}
 					{project.github && (
 						<a
 							href={project.github}
 							target="_blank"
 							rel="noreferrer"
-							className="flex items-center gap-1.5 text-sm font-medium text-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+							className="relative z-10 flex items-center gap-1.5 text-sm font-medium text-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
 						>
 							<GitHubIcon />
 							Code
@@ -83,7 +117,7 @@ function ProjectCard({ project, coverHeight }: { project: Project; coverHeight: 
 							href={project.live}
 							target="_blank"
 							rel="noreferrer"
-							className="flex items-center gap-1.5 text-sm font-medium text-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
+							className="relative z-10 flex items-center gap-1.5 text-sm font-medium text-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
 						>
 							<ExternalLinkIcon />
 							Live Demo
@@ -100,42 +134,40 @@ const otherProjects = projects.filter((p) => !p.featured);
 
 const ProjectsPage = () => {
 	return (
-		<div className="divide-y divide-gray-200 dark:divide-gray-700">
-			<div className="space-y-2 pt-6 pb-8 md:space-x-5">
-				<h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-					Projects
-				</h1>
-				<p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-					A selection of things I&apos;ve built — from full-stack applications to developer
-					tooling.
-				</p>
-			</div>
+		<div className="py-16 md:py-24 space-y-16">
+			<SectionHeading
+				as="h1"
+				eyebrow="Projects"
+				title="Selected work, built end to end."
+				subtitle="Enterprise platforms and personal builds, with the engineering decisions behind them."
+			/>
 
-			<div className="py-12 space-y-14">
+			<section aria-labelledby="featured-heading">
+				<Eyebrow className="mb-6">
+					<span id="featured-heading">Featured</span>
+				</Eyebrow>
+				<div className="grid gap-8 sm:grid-cols-2">
+					{featuredProjects.map((project) => (
+						<ProjectCard
+							key={project.slug}
+							project={project}
+							coverHeight="h-56"
+							className={project.caseStudy ? 'sm:col-span-2' : ''}
+						/>
+					))}
+				</div>
+			</section>
+
+			{otherProjects.length > 0 && (
 				<section>
-					<h2 className="text-xs font-semibold uppercase tracking-widest text-teal-500 mb-6">
-						Featured
-					</h2>
-					<div className="grid gap-8 sm:grid-cols-2">
-						{featuredProjects.map((project) => (
-							<ProjectCard key={project.title} project={project} coverHeight="h-56" />
+					<Eyebrow className="mb-6">Other Projects</Eyebrow>
+					<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+						{otherProjects.map((project) => (
+							<ProjectCard key={project.slug} project={project} coverHeight="h-44" />
 						))}
 					</div>
 				</section>
-
-				{otherProjects.length > 0 && (
-					<section>
-						<h2 className="text-xs font-semibold uppercase tracking-widest text-teal-500 mb-6">
-							Other Projects
-						</h2>
-						<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-							{otherProjects.map((project) => (
-								<ProjectCard key={project.title} project={project} coverHeight="h-44" />
-							))}
-						</div>
-					</section>
-				)}
-			</div>
+			)}
 		</div>
 	);
 };
